@@ -46,7 +46,7 @@ def solve_gauss_with_main_element(A, b):
             sum_ax += A[i][j] * x[j]
         x[i] = (b[i] - sum_ax) / A[i][i]
 
-        return A, b, x, det
+    return A, b, x, det
 
 
 def compute_residuals(A_orig, b_orig, x):
@@ -60,15 +60,11 @@ def compute_residuals(A_orig, b_orig, x):
     return r
 
 def print_triangular_matrix(T, bT):
-    """
-    Выводит верхнетреугольную матрицу, где каждой строке соответствует преобразованный столбец bT.
-    """
     n = len(bT)
     print("\nВерхнетреугольная матрица (с преобразованным столбцом b):")
     for i in range(n):
-        # Формируем строку: коэффициенты и в конце свободный член
-        row_str = " ".join(f"{T[i][j]:10.4f}" for j in range(len(T[i])))
-        print(row_str, " |", f"{bT[i]:10.4f}")
+        row_str = " ".join(f"{T[i][j]:}" for j in range(len(T[i])))
+        print(row_str, " |", f"{bT[i]:}")
 
 
 def read_matrix_from_keyboard():
@@ -125,77 +121,24 @@ if __name__ == '__main__':
         A, b = read_matrix_from_keyboard()
         A_orig = A.copy()
         b_orig = b.copy()
-        solution = solve_gauss_with_main_element(A, b)
+        A_final, b_final, solution, det = solve_gauss_with_main_element(A, b)
     elif check == "2":
         filepath = input("Введите файл, в котором находится матрица: ")
         A, b = read_matrix_from_file(filepath)
         A_orig = A.copy()
         b_orig = b.copy()
-        solution = solve_gauss_with_main_element(A, b)
+        A_final, b_final, solution, det = solve_gauss_with_main_element(A, b)
     else:
         print("Команда не найдена")
         sys.exit(1)
+    print_triangular_matrix(A_final, b_final)
 
-    # Решение с использованием NumPy
-    A_np = np.array(A_orig, dtype=float)
-    b_np = np.array(b_orig, dtype=float)
-    try:
-        x_np = np.linalg.solve(A_np, b_np)
-        det_np = np.linalg.det(A_np)
-    except Exception as e:
-        print("Ошибка при решении системы с помощью NumPy:", e)
-        sys.exit(1)
-
-    print("\nРезультаты, полученные с использованием библиотеки NumPy:")
-    print("Вектор неизвестных:")
-    for i, xi in enumerate(x_np):
-        print(f"x[{i + 1}] = {xi:10.4f}")
-    print("\nОпределитель системы (NumPy):", f"{det_np:10.4f}")
     print("Решение системы:", solution)
-
-'''
-def main():
-    print("Выберите способ ввода системы уравнений:")
-    print("1 - Ввод с клавиатуры")
-    print("2 - Ввод из файла")
-    choice = input("Ваш выбор (1 или 2): ").strip()
-
-    if choice == "1":
-        A, b = read_augmented_matrix_from_keyboard()
-    elif choice == "2":
-        filename = input("Введите имя файла: ").strip()
-        try:
-            A, b = read_augmented_matrix_from_file(filename)
-        except Exception as e:
-            print("Ошибка при чтении файла:", e)
-            sys.exit(1)
-    else:
-        print("Неверный выбор. Завершение работы.")
-        sys.exit(1)
-
-    # Сохраняем исходную систему для вычисления невязок и сравнения с NumPy
-    A_orig = copy.deepcopy(A)
-    b_orig = b[:]
-
-    try:
-        T, bT, x, det = gaussian_elimination(A, b)
-    except Exception as e:
-        print("Ошибка при решении системы:", e)
-        sys.exit(1)
-
-    print_triangular_matrix(T, bT)
-
-    print("\nВектор неизвестных (решение системы методом Гаусса):")
-    for i, xi in enumerate(x):
-        print(f"x[{i + 1}] = {xi:10.4f}")
-
-    r = compute_residuals(A_orig, b_orig, x)
-    print("\nВектор невязок (Ax - b) для найденного решения:")
+    print("Определитель: ", det)
+    r = compute_residuals(A_orig, b_orig, solution)
+    print("Вектор невязок (Ax - b) для найденного решения:")
     for i, ri in enumerate(r):
-        print(f"r[{i + 1}] = {ri:10.4e}")
-
-    print(f"\nВычисленный определитель методом Гаусса: {det:10.4f}")
-
+        print(f"r[{i + 1}] = {ri}")
     # Решение с использованием NumPy
     A_np = np.array(A_orig, dtype=float)
     b_np = np.array(b_orig, dtype=float)
@@ -209,16 +152,5 @@ def main():
     print("\nРезультаты, полученные с использованием библиотеки NumPy:")
     print("Вектор неизвестных:")
     for i, xi in enumerate(x_np):
-        print(f"x[{i + 1}] = {xi:10.4f}")
+        print(f"x[{i + 1}] = {xi}")
     print("\nОпределитель системы (NumPy):", f"{det_np:10.4f}")
-
-    # Сравнение результатов
-    print("\nСравнение результатов:")
-    print("Метод Гаусса и NumPy дают очень близкие (или совпадающие) результаты.")
-    print(
-        "Небольшие различия могут возникать из-за особенностей округления и внутренней реализации операций с плавающей точкой.")
-
-
-if __name__ == '__main__':
-    main()
-'''
