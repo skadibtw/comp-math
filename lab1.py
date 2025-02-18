@@ -63,8 +63,8 @@ def print_triangular_matrix(T, bT):
     n = len(bT)
     print("\nВерхнетреугольная матрица (с преобразованным столбцом b):")
     for i in range(n):
-        row_str = " ".join(f"{T[i][j]:}" for j in range(len(T[i])))
-        print(row_str, " |", f"{bT[i]:}")
+        row_str = " ".join(f"{T[i][j]:10.4f}" for j in range(len(T[i])))
+        print(row_str, " |", f"{bT[i]:10.4f}")
 
 
 def read_matrix_from_keyboard():
