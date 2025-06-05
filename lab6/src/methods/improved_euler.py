@@ -29,7 +29,7 @@ def get_improved_euler_precision(
     """Оценка погрешности правилом Рунге."""
     P = 2
 
-    _xs1, ys1 = improved_euler(f, y0, x0, xn, h1)
-    _xs2, ys2 = improved_euler(f, y0, x0, xn, h2)
+    _xs1, ys1 = improved_euler(f, x0, y0, xn, h1)
+    _xs2, ys2 = improved_euler(f, x0, y0, xn, h2)
 
     return abs(ys1[-1] - ys2[-1]) / (2 ** P - 1)

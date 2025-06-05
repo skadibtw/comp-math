@@ -17,7 +17,8 @@ FUNCTIONS: list[dict[str, str | Function]] = [
     ),
     dict(
         name='2x^3 + y',
-        f=lambda x, y: x ** 3 + y,
+        # функция y' = 2*x^3 + y
+        f=lambda x, y: 2 * x ** 3 + y,
         compute_constant=lambda x, y: (y + 2 * x ** 3 + 6 * x ** 2 + 12 * x + 12) / exp(x),
         integral=lambda x, c: c * exp(x) - 2 * x ** 3 - 6 * x ** 2 - 12 * x - 12,
     ),
