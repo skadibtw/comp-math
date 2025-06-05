@@ -12,7 +12,7 @@ def _is_float_or_int(n: Any) -> bool:
 def read_float_from_stdin(message: str, checker: Callable[[float], bool] = lambda x: True) -> float:
     """Читает float из stdin."""
     f = None
-    while not f:
+    while f is None:
         print(f'{message}')
         f = parse_float(input())
 
@@ -27,7 +27,7 @@ def read_float_from_stdin(message: str, checker: Callable[[float], bool] = lambd
 def read_int_from_stdin(message: str, checker: Callable[[int], bool] = lambda x: True) -> int:
     """Читает int из stdin."""
     f = None
-    while not f:
+    while f is None:
         print(f'{message}')
         f = parse_int(input())
 
