@@ -22,4 +22,11 @@ FUNCTIONS: list[dict[str, str | Function]] = [
         compute_constant=lambda x, y: (y + 2 * x ** 3 + 6 * x ** 2 + 12 * x + 12) / exp(x),
         integral=lambda x, c: c * exp(x) - 2 * x ** 3 - 6 * x ** 2 - 12 * x - 12,
     ),
+    dict(
+        name='x + y',
+        # функция y' = x + y (простая для больших шагов)
+        f=lambda x, y: x + y,
+        compute_constant=lambda x, y: (y + x + 1) / exp(x),
+        integral=lambda x, c: c * exp(x) - x - 1,
+    ),
 ]
